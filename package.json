@@ -1,0 +1,35 @@
+{
+  "name": "db-post-blog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.ts",
+    "migrate": "npx prisma migrate dev",
+    "build": "tsx src/index.ts",
+    "serve": "nodemon dist/index.js",
+    "studio": "npx prisma studio"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.14",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.12.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.12.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0"
+  }
+}
