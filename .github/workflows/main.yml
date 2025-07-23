@@ -1,0 +1,47 @@
+name: CI Pipeline DB
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: ${{secrets.DB_USER}}
+          POSTGRES_PASSWORD: ${{secrets.DB_PASSWORD}}
+          POSTGRES_DB: ${{secrets.DB_NAME}}
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Install Prisma CLI
+      run: npm install -g prisma
+
+    - name: Setup environment
+      env:
+        DATABASE_URL: ${{secrets.DB_URL}}
+      run: |
+        npx prisma generate
+        npx prisma migrate dev --name ci_init --skip-generate
+
+    - name: Build project
+      run: npm run build
