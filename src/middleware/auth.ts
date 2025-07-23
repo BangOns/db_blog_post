@@ -38,3 +38,28 @@ export const authUser = async (
     next();
   });
 };
+
+export const authentication = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const headers = req.headers.authorization;
+  if (!headers) {
+    return Responsedata(
+      { data: {}, message: "unauthorized", status: 401 },
+      res
+    );
+  }
+  const token = headers.split(" ")[1];
+  const key = process.env.JWT_SECRET as string;
+  jwt.verify(token, key, (err: any, decoded: any) => {
+    if (err) {
+      return Responsedata(
+        { data: {}, message: "Invalid Token", status: 403 },
+        res
+      );
+    }
+    next();
+  });
+};

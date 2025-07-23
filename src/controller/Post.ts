@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "../../generated/prisma";
+
 import { Responsedata, responseDataFunction } from "../Scema/Response";
-const prisma = new PrismaClient();
+import prisma from "../libs/prisma";
 export const getAllPost = async (req: Request, res: Response) => {
   try {
     const response = await prisma.post.findMany({
@@ -58,6 +58,23 @@ export const editPost = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
 
+    return Responsedata({ data: {}, message: "error", status: 500 }, res);
+  }
+};
+
+export const deletePost = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const response = await prisma.post.delete({
+      where: {
+        id: id,
+      },
+    });
+    return Responsedata(
+      { data: response, message: "success", status: 200 },
+      res
+    );
+  } catch (error) {
     return Responsedata({ data: {}, message: "error", status: 500 }, res);
   }
 };

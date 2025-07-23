@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import { LoginUser, RegisterUser, UpdateUser } from "../type/user";
-import { PrismaClient } from "../../generated/prisma";
+
 import { Responsedata } from "../Scema/Response";
 import { GenerateRefreshToken, GenerateToken } from "../utils/GenerateToken";
-
-const prisma = new PrismaClient();
+import prisma from "../libs/prisma";
 
 export const login = async (req: Request, res: Response) => {
   const { email } = req.body as LoginUser;
@@ -64,10 +63,8 @@ export const register = async (req: Request, res: Response) => {
 
 export const EditUser = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { img } = req.body as UpdateUser;
-  const datas = {
-    img,
-  };
+  const datas = req.body as UpdateUser;
+
   try {
     const responseId = await getUserById(Number(id));
     if (responseId.status === 500) {

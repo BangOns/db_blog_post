@@ -1,15 +1,13 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "../../generated/prisma";
 import { Responsedata, responseDataFunction } from "../Scema/Response";
-import { Like } from "type/like";
-
-export const prisma = new PrismaClient();
+import { Like } from "../type/like";
+import prisma from "../libs/prisma";
 
 export const ToggleLike = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { userId } = req.params;
     const data = req.body as Like;
-    const response = await GetLikeByPostId(Number(id));
+    const response = await GetLikeByPostId(Number(userId));
     let responseLike;
     if (response.status !== 200) {
       responseLike = await LikePost(data);
@@ -18,7 +16,7 @@ export const ToggleLike = async (req: Request, res: Response) => {
     }
 
     return Responsedata(
-      { data: responseLike.data, message: "success", status: 200 },
+      { data: responseLike.data, message: responseLike.message, status: 200 },
       res
     );
   } catch (error: any) {
@@ -33,7 +31,7 @@ export const LikePost = async (data: Like) => {
     });
     return responseDataFunction({
       data: response,
-      message: "Success",
+      message: "Success like post",
       status: 200,
     });
   } catch (error: any) {
@@ -48,8 +46,8 @@ export const UnlikePost = async (id: string) => {
       },
     });
     return responseDataFunction({
-      data: response,
-      message: "Success",
+      data: {},
+      message: "Success unlike post",
       status: 200,
     });
   } catch (error: any) {
