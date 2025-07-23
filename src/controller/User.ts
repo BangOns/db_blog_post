@@ -3,7 +3,7 @@ import { LoginUser, RegisterUser, UpdateUser } from "../type/user";
 
 import { Responsedata } from "../Scema/Response";
 import { GenerateRefreshToken, GenerateToken } from "../utils/GenerateToken";
-import prisma from "../libs/prisma";
+import { prisma } from "../libs/prisma";
 
 export const login = async (req: Request, res: Response) => {
   const { email } = req.body as LoginUser;
