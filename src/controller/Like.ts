@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Responsedata, responseDataFunction } from "../Scema/Response";
 import { Like } from "../type/like";
-import prisma from "../libs/prisma";
+import { prisma } from "../libs/prisma";
 
 export const ToggleLike = async (req: Request, res: Response) => {
   try {
