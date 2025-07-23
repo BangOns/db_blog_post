@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -16,7 +15,7 @@ datasource db {
 
 model User{
   id          Int @id @default(autoincrement())
-  email       String
+  email       String @unique
   password    String
   name        String
   img         String?
@@ -26,7 +25,7 @@ model User{
 }
 model Post{
    
-  id          String @id @default(uuid())
+  id          String @id @default(uuid()) @unique
   title       String
   body        String
   category    String
@@ -38,7 +37,7 @@ model Post{
 }
 
 model Like{
-  id        String @id @default(uuid())
+  id        String @id @default(uuid()) @unique
   postId    String
   userId    Int
   post      Post @relation(fields: [postId],references: [id])
