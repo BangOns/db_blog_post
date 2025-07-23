@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 
 import { Responsedata, responseDataFunction } from "../Scema/Response";
-import prisma from "../libs/prisma";
+import { prisma } from "../libs/prisma";
+
 export const getAllPost = async (req: Request, res: Response) => {
   try {
     const response = await prisma.post.findMany({
