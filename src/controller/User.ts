@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { LoginUser, RegisterUser, UpdateUser } from "type/user";
+import { LoginUser, RegisterUser, UpdateUser } from "../type/user";
 import { PrismaClient } from "../../generated/prisma";
 import { Responsedata } from "../Scema/Response";
 import { GenerateRefreshToken, GenerateToken } from "../utils/GenerateToken";

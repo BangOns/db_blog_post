@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import route from "./route/index";
-import bodyParser from "body-parser";
+import * as bodyParser from "body-parser";
 const app = express();
 
 app.use(cors());

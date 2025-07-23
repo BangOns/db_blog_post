@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Responsedata } from "../Scema/Response";
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 import { getUserById } from "../controller/User";
 export const authUser = async (
   req: Request,

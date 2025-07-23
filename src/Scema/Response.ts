@@ -12,3 +12,6 @@ export const Responsedata = (response: ResponseType, res: Response) => {
     data: response.data,
   });
 };
+export const responseDataFunction = (response: ResponseType) => {
+  return response;
+};
