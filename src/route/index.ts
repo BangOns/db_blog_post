@@ -18,7 +18,7 @@ route.post("/register", register);
 route.put("/update/:id", authUser, EditUser);
 
 // Post Routes
-route.get("/posts", authentication, getAllPost);
+route.get("/posts", getAllPost);
 route.post("/posts", authentication, createPost);
 route.put("/posts/:id", authentication, editPost);
 route.delete("/posts/:id", authentication, deletePost);
