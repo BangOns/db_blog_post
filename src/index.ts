@@ -7,9 +7,14 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
-dotenv.config();
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true, 
+}));
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+dotenv.config();
 const port = process.env.PORT || 3001;
 app.use(route);
 app.use("/", (req: Request, res: Response) => {
