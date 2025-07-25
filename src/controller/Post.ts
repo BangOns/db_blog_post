@@ -32,7 +32,10 @@ export const createPost = async (req: Request, res: Response) => {
   } catch (error: any) {
     console.log(error);
 
-    return Responsedata({ data: {}, message: "error", status: 500 }, res);
+    return Responsedata(
+      { data: {}, message: error.message || "error", status: 500 },
+      res
+    );
   }
 };
 export const editPost = async (req: Request, res: Response) => {
