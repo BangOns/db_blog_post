@@ -4,6 +4,7 @@ import { LoginUser, RegisterUser, UpdateUser } from "../type/user";
 import { Responsedata } from "../Scema/Response";
 import { GenerateRefreshToken, GenerateToken } from "../utils/GenerateToken";
 import { prisma } from "../libs/prisma";
+import { hash } from "bcryptjs";
 
 export const login = async (req: Request, res: Response) => {
   const { email } = req.body as LoginUser;
@@ -36,29 +37,58 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 export const register = async (req: Request, res: Response) => {
-  const { email, password, name } = req.body as RegisterUser;
+  const { email, password, name } = req.body;
+
+  // Validasi input
   const responseValidate = await validateUser(req.body);
   if (responseValidate.status === 500) {
-    Responsedata(
+    return Responsedata(
       {
         data: {},
         message: responseValidate.message,
-        status: responseValidate.status,
+        status: 500,
       },
       res
     );
   }
-  const response = await prisma.user.create({
-    data: req.body,
-  });
-  Responsedata(
-    {
-      data: response,
-      message: "success",
-      status: 200,
-    },
-    res
-  );
+
+  try {
+    // Hash password
+    const hashedPassword = await hash(password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
+
+    return Responsedata(
+      {
+        data: user,
+        message: "success",
+        status: 200,
+      },
+      res
+    );
+  } catch (error: any) {
+    console.error("Register error:", error);
+
+    let message = "Internal Server Error";
+    if (error.code === "P2002") {
+      message = "Email sudah terdaftar";
+    }
+
+    return Responsedata(
+      {
+        data: {},
+        message,
+        status: 500,
+      },
+      res
+    );
+  }
 };
 
 export const EditUser = async (req: Request, res: Response) => {
