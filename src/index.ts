@@ -9,7 +9,10 @@ require("dotenv").config();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   const origin = req.headers.origin;
-  const allowedOrigins = ["http://localhost:5173", "http://localhost:3000"];
+  const allowedOrigins = [
+    "http://localhost:5173",
+    "https://db-blog-post.vercel.app",
+  ];
 
   // Always set CORS headers
   if (allowedOrigins.includes(origin as string)) {
