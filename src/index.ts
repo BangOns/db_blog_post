@@ -1,25 +1,13 @@
-import * as dotenv from "dotenv";
-dotenv.config();
 import route from "./route/index";
 import * as bodyParser from "body-parser";
 import { Request, Response } from "express";
-import express from "express";
-
-const app = express();
+const express = require("express");
 const cors = require("cors");
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://db-blog-post.vercel.app",
-];
+const app = express();
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-    optionsSuccessStatus: 200,
-  })
-);
+require("dotenv").config();
+
+app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
