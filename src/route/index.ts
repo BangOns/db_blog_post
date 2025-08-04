@@ -8,7 +8,7 @@ import {
   editPost,
   getAllPost,
 } from "../controller/Post";
-import { LikePost, UnlikePost } from "../controller/Like";
+import { getLikeAll, LikePost, UnlikePost } from "../controller/Like";
 const route = Router();
 route.get("/", async (req: Request, res: Response) => {
   res.send("Hello API Working");
@@ -25,6 +25,7 @@ route.put("/posts/:id", authentication, editPost);
 route.delete("/posts/:id", authentication, deletePost);
 
 // Like Routes
+route.get("/like", authentication, getLikeAll);
 route.post("/like", authentication, LikePost);
 route.delete("/like/:id", authentication, UnlikePost);
 

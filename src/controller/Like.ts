@@ -22,6 +22,19 @@ import { prisma } from "../libs/prisma";
 //     return Responsedata({ data: {}, message: error.message, status: 500 }, res);
 //   }
 // };
+
+export const getLikeAll = async (req: Request, res: Response) => {
+  try {
+    const response = await prisma.like.findMany();
+    return responseDataFunction({
+      data: response,
+      message: "success",
+      status: 200,
+    });
+  } catch (error: any) {
+    return responseDataFunction({ data: {}, message: "error", status: 500 });
+  }
+};
 export const LikePost = async (req: Request, res: Response) => {
   try {
     const data = req.body as Like;
