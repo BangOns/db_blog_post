@@ -215,6 +215,30 @@ export const getUserById = async (id: number) => {
     };
   }
 };
+export const getUserByIds = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const response = await prisma.user.findFirst({
+      where: {
+        id: Number(id),
+      },
+    });
+    if (!response) {
+      throw new Error("user not found");
+    }
+    return {
+      status: 200,
+      message: "success",
+      data: response,
+    };
+  } catch (error: any) {
+    return {
+      status: 500,
+      message: error.message as string,
+      data: error,
+    };
+  }
+};
 export const validateUser = async (data: LoginUser) => {
   try {
     const response = await prisma.user.findFirst({
