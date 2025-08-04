@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 
-import { EditUser, login, register } from "../controller/User";
+import { EditUser, getUserByIds, login, register } from "../controller/User";
 import { authentication, authUser } from "../middleware/auth";
 import {
   createPost,
@@ -8,7 +8,7 @@ import {
   editPost,
   getAllPost,
 } from "../controller/Post";
-import { ToggleLike } from "../controller/Like";
+import { LikePost, UnlikePost } from "../controller/Like";
 const route = Router();
 route.get("/", async (req: Request, res: Response) => {
   res.send("Hello API Working");
@@ -16,6 +16,7 @@ route.get("/", async (req: Request, res: Response) => {
 route.post("/login", login);
 route.post("/register", register);
 route.put("/update/:id", authUser, EditUser);
+route.get("/user/:id", authUser, getUserByIds);
 
 // Post Routes
 route.get("/posts", getAllPost);
@@ -24,6 +25,7 @@ route.put("/posts/:id", authentication, editPost);
 route.delete("/posts/:id", authentication, deletePost);
 
 // Like Routes
-route.post("/like/:userId", authentication, ToggleLike);
+route.post("/like", authentication, LikePost);
+route.delete("/like/:id", authentication, UnlikePost);
 
 export default route;
