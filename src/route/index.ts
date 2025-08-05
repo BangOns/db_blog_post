@@ -25,7 +25,7 @@ route.put("/posts/:id", authentication, editPost);
 route.delete("/posts/:id", authentication, deletePost);
 
 // Like Routes
-route.get("/like", authentication, getLikeAll);
+route.get("/like", getLikeAll);
 route.post("/like", authentication, LikePost);
 route.delete("/like/:id", authentication, UnlikePost);
 

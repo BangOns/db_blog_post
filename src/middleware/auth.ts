@@ -52,6 +52,8 @@ export const authentication = async (
     );
   }
   const token = headers.split(" ")[1];
+  console.log(token);
+
   const key = process.env.JWT_SECRET as string;
   jwt.verify(token, key, (err: any, decoded: any) => {
     if (err) {
