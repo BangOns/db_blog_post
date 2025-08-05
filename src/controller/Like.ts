@@ -26,13 +26,15 @@ import { prisma } from "../libs/prisma";
 export const getLikeAll = async (req: Request, res: Response) => {
   try {
     const response = await prisma.like.findMany();
-    return responseDataFunction({
-      data: response,
-      message: "success",
-      status: 200,
-    });
+    return Responsedata(
+      { data: response, message: "success", status: 200 },
+      res
+    );
   } catch (error: any) {
-    return responseDataFunction({ data: {}, message: "error", status: 500 });
+    return Responsedata(
+      { data: {}, message: error || "error fetching like", status: 400 },
+      res
+    );
   }
 };
 export const LikePost = async (req: Request, res: Response) => {
@@ -42,37 +44,45 @@ export const LikePost = async (req: Request, res: Response) => {
     const response = await prisma.like.create({
       data: data as Like,
     });
-    return responseDataFunction({
-      data: response,
-      message: "Success like post",
-      status: 200,
-    });
+    Responsedata(
+      {
+        data: response,
+        message: "Success like post",
+        status: 200,
+      },
+      res
+    );
   } catch (error: any) {
-    return responseDataFunction({ data: {}, message: "error", status: 500 });
+    Responsedata({ data: {}, message: "error like posts", status: 500 }, res);
   }
 };
 export const UnlikePost = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     if (!id) {
-      return responseDataFunction({
-        data: {},
-        message: "Post ID is required",
-        status: 400,
-      });
+      Responsedata(
+        { data: {}, message: "Post ID is required", status: 400 },
+        res
+      );
     }
     await prisma.like.delete({
       where: {
         id: id as string,
       },
     });
-    return responseDataFunction({
-      data: {},
-      message: "Success unlike post",
-      status: 200,
-    });
+    Responsedata(
+      {
+        data: {},
+        message: "Success unlike post",
+        status: 200,
+      },
+      res
+    );
   } catch (error: any) {
-    return responseDataFunction({ data: {}, message: "error", status: 500 });
+    Responsedata(
+      { data: {}, message: error.message || "error unlike post", status: 500 },
+      res
+    );
   }
 };
 export const GetLikeByPostId = async (id: number, postId: string) => {
